@@ -1,15 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-
-type User = {
-  id: string;
-  name: string;
-  email: string;
-};
+import { UserData } from "@/lib/types";
 
 export const useGetUsers = () => {
-  const [users, setUsers] = useState<User[] | null>(null);
+  const [userData, setUserData] = useState<UserData[] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchUserDataById = async (userId: string) => {
@@ -38,13 +33,13 @@ export const useGetUsers = () => {
 
       const data = await res.json();
       const usersWithDetails = await Promise.all(
-        data.users.map(async (user: User) => {
+        data.users.map(async (user: UserData) => {
           const userDetails = await fetchUserDataById(user.id);
           return { ...user, details: userDetails };
         })
       );
 
-      setUsers(usersWithDetails);
+      setUserData(usersWithDetails);
     } catch (error) {
       console.error("Error fetching users:", error);
     } finally {
@@ -56,5 +51,5 @@ export const useGetUsers = () => {
     getAllUsers();
   }, []);
 
-  return { users, isLoading };
+  return { userData, isLoading };
 };
