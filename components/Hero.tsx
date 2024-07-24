@@ -7,6 +7,8 @@ import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import Avatar from "./ui/Avatar";
 import FamilySummary from "./ui/FamilySummary";
+import Loader from "./ui/Loader";
+import { formatDuration } from "@/hooks/utils";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -18,9 +20,10 @@ const Hero = () => {
     isActive: false,
     index: null,
   });
+
   const { userData, isLoading } = useGetUsers();
 
-  if (isLoading || !userData) return <div>Loading...</div>;
+  if (isLoading || !userData) return <Loader />;
 
   const familyLastName = userData[0].name.split(" ")[1];
   const sleepStages = ["awake", "light", "deep"];
@@ -29,6 +32,7 @@ const Hero = () => {
     const stageDurations = sleepStages.map((stage) =>
       user.details.intervals.reduce((sum, interval) => {
         const stageData = interval.stages.find((s) => s.stage === stage);
+
         return sum + (stageData ? stageData.duration : 0);
       }, 0)
     );
@@ -37,12 +41,6 @@ const Hero = () => {
       (sum, duration) => sum + duration,
       0
     );
-
-    const formatDuration = (duration: number) => {
-      const hours = Math.floor(duration / 3600);
-      const minutes = Math.floor((duration % 3600) / 60);
-      return `${hours}h ${minutes}m`;
-    };
 
     const data = {
       labels: sleepStages,
@@ -67,7 +65,7 @@ const Hero = () => {
       totalSleepDuration: formatDuration(totalSleepDuration),
     };
 
-    return data;
+    return { ...data, id: user.id };
   });
 
   const options = {
@@ -75,17 +73,6 @@ const Hero = () => {
     plugins: {
       legend: {
         position: "bottom",
-      },
-      tooltip: {
-        callbacks: {
-          label: (tooltipItem: any) => {
-            const stage = sleepStages[tooltipItem.dataIndex];
-            const duration = tooltipItem.raw;
-            const hours = Math.floor(duration / 3600);
-            const minutes = Math.floor((duration % 3600) / 60);
-            return `${stage}: ${hours}h ${minutes}m`;
-          },
-        },
       },
     },
     cutout: "70%",
@@ -111,13 +98,13 @@ const Hero = () => {
       <div className="w-full flex flex-col lg:flex-row items-center justify-center mt-5 max-w-7xl mx-auto scale-95">
         {exampleData.map((data, index) => (
           <Link
-            href={data.name}
+            href={`/user/${data.id}`}
             key={index}
             className={`${
               activeIndex.isActive &&
               activeIndex.index !== index &&
               "opacity-50"
-            } mb-8 bg-[#252526] px-7 py-10 rounded-lg flex flex-col m-4 transition-all duration-500 hover:scale-[1.025]`}
+            } mb-8 bg-[#252526] p-7 sm:p-10 rounded-lg flex flex-col m-4 transition-all duration-500 hover:scale-[1.025] w-full max-w-sm justify-center items-center`}
             onMouseEnter={() => setActiveIndex({ isActive: true, index })}
             onMouseLeave={() =>
               setActiveIndex({ isActive: false, index: null })
@@ -141,10 +128,8 @@ const Hero = () => {
             </div>
 
             <div className="mt-5">
-              <p className="text-center">
-                {data.name} slept for {data.totalSleepDuration.split(" ")[0]}{" "}
-                and <br />
-                {data.totalSleepDuration.split(" ")[1]} on average.
+              <p className="text-center text-xl">
+                {data.name} slept for <br /> {data.totalSleepDuration}
               </p>
             </div>
           </Link>

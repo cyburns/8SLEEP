@@ -3,11 +3,11 @@
 import { useState, useEffect } from "react";
 import { UserData } from "@/lib/types";
 
-export const useGetUsers = () => {
+export const useGetUsers = (userId?: string) => {
   const [userData, setUserData] = useState<UserData[] | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const fetchUserDataById = async (userId: string) => {
+  const fetchUserById = async (userId: string) => {
     try {
       const res = await fetch(`/api/user/${userId}`);
       if (!res.ok) {
@@ -27,19 +27,28 @@ export const useGetUsers = () => {
 
     try {
       const res = await fetch("/api/users");
+
       if (!res.ok) {
         throw new Error("Failed to fetch users");
       }
 
       const data = await res.json();
-      const usersWithDetails = await Promise.all(
-        data.users.map(async (user: UserData) => {
-          const userDetails = await fetchUserDataById(user.id);
-          return { ...user, details: userDetails };
-        })
-      );
 
-      setUserData(usersWithDetails);
+      if (userId) {
+        const user = data.users.find((user: UserData) => user.id === userId);
+        const userDetails = await fetchUserById(user.id);
+
+        setUserData([{ ...user, details: userDetails }]);
+      } else {
+        const usersWithDetails = await Promise.all(
+          data.users.map(async (user: UserData) => {
+            const userDetails = await fetchUserById(user.id);
+            return { ...user, details: userDetails };
+          })
+        );
+
+        setUserData(usersWithDetails);
+      }
     } catch (error) {
       console.error("Error fetching users:", error);
     } finally {
