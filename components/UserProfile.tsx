@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { UserData } from "@/lib/types";
 import { Line, Bar } from "react-chartjs-2";
 import { secondsToHours } from "@/hooks/utils";
+import gsap from "gsap";
 import {
   Chart,
   CategoryScale,
@@ -34,6 +35,7 @@ interface StageDurations {
 }
 
 const UserProfile = ({ userData }: UserProfileProps) => {
+  const containerRef = useRef(null);
   const user = userData[0];
   const intervals = user.details.intervals;
 
@@ -150,6 +152,14 @@ const UserProfile = ({ userData }: UserProfileProps) => {
       return acc;
     }, {} as StageDurations);
 
+  useEffect(() => {
+    gsap.fromTo(
+      containerRef.current,
+      { y: 500, opacity: 0 },
+      { y: 0, opacity: 1, duration: 1, ease: "power4.out" }
+    );
+  }, []);
+
   return (
     <div className="flex justify-center items-center mx-auto flex-col w-full mt-16 mb-32 p-5 max-w-fit">
       <div className="mb-10 flex flex-row items-center px-10">
@@ -157,61 +167,62 @@ const UserProfile = ({ userData }: UserProfileProps) => {
           {user.name}
         </h1>
       </div>
-
-      <div className="flex flex-col lg:flex-row">
-        <div className="w-[90vw] sm:w-[30rem] md:w-[40rem] bg-[#252526] p-4 rounded-lg flex justify-center m-2 bg-opacity-60">
-          <Line data={heartRateData} options={chartOptions} />
-        </div>
-
-        <div className="bg-[#252526] py-7 lg:py-3 px-10 rounded-lg flex flex-col justify-center m-2 bg-opacity-60">
-          <h2 className="text-6xl sm:text-[6rem] text-center font-medium !leading-[1]">
-            {averageHeartRate}
-          </h2>
-          <p className="text-lg text-center font-thin">Average heart rate</p>
-        </div>
-      </div>
-
-      <div className="flex flex-col lg:flex-row">
-        <div className="bg-[#252526] py-7 lg:py-3 px-[3.2rem] rounded-lg flex flex-col justify-center m-2 bg-opacity-60">
-          <h2 className="text-6xl sm:text-[6rem] text-center font-medium !leading-[1]">
-            {averageRespiratoryRate}
-          </h2>
-          <p className="text-lg text-center font-thin">
-            Average
-            <br /> respiratory rate
-          </p>
-        </div>
-
-        <div className="w-[90vw] sm:w-[30rem] md:w-[40rem] bg-[#252526] p-3 rounded-lg flex justify-center m-2 bg-opacity-60">
-          <Line data={respiratoryRateData} options={chartOptions} />
-        </div>
-      </div>
-
-      <div className="flex flex-col lg:flex-row">
-        <div className="w-[90vw] sm:w-[30rem] md:w-[40rem] bg-[#252526] p-3 rounded-lg flex justify-center m-2 bg-opacity-60">
-          <Bar data={sleepStageData} options={chartOptions} />
-        </div>
-
-        <div className="bg-[#252526] py-7 lg:py-3 px-10 rounded-lg flex flex-col justify-center m-2 bg-opacity-60 space-y-5">
-          <div>
-            <p className="text-center text-4xl">
-              {secondsToHours(stageDurations.awake) || 0}
-            </p>
-            <p className="text-center font-thin">Spent awake</p>
+      <div ref={containerRef}>
+        <div className="flex flex-col lg:flex-row">
+          <div className="w-[90vw] sm:w-[30rem] md:w-[40rem] bg-[#252526] p-4 rounded-lg flex justify-center m-2 bg-opacity-60">
+            <Line data={heartRateData} options={chartOptions} />
           </div>
 
-          <div>
-            <p className="text-center text-4xl">
-              {secondsToHours(stageDurations.light) || 0}
+          <div className="bg-[#252526] py-7 lg:py-3 px-10 rounded-lg flex flex-col justify-center m-2 bg-opacity-60">
+            <h2 className="text-6xl sm:text-[6rem] text-center font-medium !leading-[1]">
+              {averageHeartRate}
+            </h2>
+            <p className="text-lg text-center font-thin">Average heart rate</p>
+          </div>
+        </div>
+
+        <div className="flex flex-col lg:flex-row">
+          <div className="bg-[#252526] py-7 lg:py-3 px-[3.2rem] rounded-lg flex flex-col justify-center m-2 bg-opacity-60">
+            <h2 className="text-6xl sm:text-[6rem] text-center font-medium !leading-[1]">
+              {averageRespiratoryRate}
+            </h2>
+            <p className="text-lg text-center font-thin">
+              Average
+              <br /> respiratory rate
             </p>
-            <p className="text-center font-thin">Spent in light sleep</p>
           </div>
 
-          <div>
-            <p className="text-center text-4xl">
-              {secondsToHours(stageDurations.deep) || 0}
-            </p>
-            <p className="text-center font-thin">Spent in deep sleep</p>
+          <div className="w-[90vw] sm:w-[30rem] md:w-[40rem] bg-[#252526] p-3 rounded-lg flex justify-center m-2 bg-opacity-60">
+            <Line data={respiratoryRateData} options={chartOptions} />
+          </div>
+        </div>
+
+        <div className="flex flex-col lg:flex-row">
+          <div className="w-[90vw] sm:w-[30rem] md:w-[40rem] bg-[#252526] p-3 rounded-lg flex justify-center m-2 bg-opacity-60">
+            <Bar data={sleepStageData} options={chartOptions} />
+          </div>
+
+          <div className="bg-[#252526] py-7 lg:py-3 px-10 rounded-lg flex flex-col justify-center m-2 bg-opacity-60 space-y-5">
+            <div>
+              <p className="text-center text-4xl">
+                {secondsToHours(stageDurations.awake) || 0}
+              </p>
+              <p className="text-center font-thin">Spent awake</p>
+            </div>
+
+            <div>
+              <p className="text-center text-4xl">
+                {secondsToHours(stageDurations.light) || 0}
+              </p>
+              <p className="text-center font-thin">Spent in light sleep</p>
+            </div>
+
+            <div>
+              <p className="text-center text-4xl">
+                {secondsToHours(stageDurations.deep) || 0}
+              </p>
+              <p className="text-center font-thin">Spent in deep sleep</p>
+            </div>
           </div>
         </div>
       </div>

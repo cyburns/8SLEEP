@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useGetUsers } from "@/hooks/useGetUsers";
 import { Doughnut } from "react-chartjs-2";
@@ -9,10 +9,12 @@ import Avatar from "./ui/Avatar";
 import FamilySummary from "./ui/FamilySummary";
 import Loader from "./ui/Loader";
 import { formatDuration } from "@/hooks/utils";
+import gsap from "gsap";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const Hero = () => {
+  const cardsContainerRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState<{
     isActive: boolean;
     index: number | null;
@@ -95,7 +97,10 @@ const Hero = () => {
         </button>
       </div>
 
-      <div className="w-full flex flex-col lg:flex-row items-center justify-center mt-5 max-w-7xl mx-auto scale-95">
+      <div
+        className="w-full flex flex-col lg:flex-row items-center justify-center mt-5 max-w-7xl mx-auto scale-95"
+        ref={cardsContainerRef}
+      >
         {exampleData.map((data, index) => (
           <Link
             href={`/user/${data.id}`}
