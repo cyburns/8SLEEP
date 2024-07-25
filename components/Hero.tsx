@@ -80,6 +80,7 @@ const Hero = () => {
       >
         {exampleData.map((data, index) => (
           <UserCard
+            key={`user-card-${data.id}`}
             data={data}
             index={index}
             activeIndex={activeIndex}
