@@ -45,17 +45,23 @@ const UserProfile = ({ userData }: UserProfileProps) => {
         grid: {
           display: false,
         },
+        ticks: {
+          color: "#A3A3A3",
+        },
       },
       y: {
         grid: {
           display: false,
+        },
+        ticks: {
+          color: "#A3A3A3",
         },
       },
     },
     plugins: {
       legend: {
         labels: {
-          color: "#fff",
+          color: "#A3A3A3",
         },
       },
     },
