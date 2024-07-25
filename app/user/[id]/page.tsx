@@ -21,7 +21,7 @@ const UserPage = ({ params }: PageProps) => {
 
   return (
     <div>
-      <UserProfile userId={id} />
+      <UserProfile userData={userData} />
     </div>
   );
 };

@@ -79,7 +79,7 @@ const Hero = () => {
   };
 
   return (
-    <div className="min-h-screen w-screen px-5 mb-56">
+    <div className="min-h-screen w-screen px-5 mb-32">
       <div className="w-full flex justify-center mt-16">
         <h1 className="text-[4rem] font-normal text-center !leading-[1]">
           Welcome back,{" "}
@@ -104,7 +104,7 @@ const Hero = () => {
               activeIndex.isActive &&
               activeIndex.index !== index &&
               "opacity-50"
-            } mb-8 bg-[#252526] p-7 sm:p-10 rounded-lg flex flex-col m-4 transition-all duration-500 hover:scale-[1.025] w-full max-w-sm justify-center items-center`}
+            } mb-8 bg-[#252526] p-7 sm:p-10 rounded-lg flex flex-col m-4 transition-all duration-500 hover:scale-[1.025] w-full max-w-sm justify-center items-center bg-opacity-60`}
             onMouseEnter={() => setActiveIndex({ isActive: true, index })}
             onMouseLeave={() =>
               setActiveIndex({ isActive: false, index: null })
