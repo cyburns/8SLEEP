@@ -29,6 +29,10 @@ interface UserProfileProps {
   userData: UserData[];
 }
 
+interface StageDurations {
+  [key: string]: number;
+}
+
 const UserProfile = ({ userData }: UserProfileProps) => {
   const user = userData[0];
   const intervals = user.details.intervals;
@@ -141,24 +145,26 @@ const UserProfile = ({ userData }: UserProfileProps) => {
 
   const stageDurations = intervals
     .flatMap((interval) => interval.stages)
-    .reduce((acc, stage) => {
+    .reduce((acc: StageDurations, stage) => {
       acc[stage.stage] = (acc[stage.stage] || 0) + stage.duration;
       return acc;
-    }, {});
+    }, {} as StageDurations);
 
   return (
     <div className="flex justify-center items-center mx-auto flex-col w-full mt-16 mb-32 p-5 max-w-fit">
       <div className="mb-10 flex flex-row items-center px-10">
-        <h1 className="text-[5rem] font-medium!leading-[1]">{user.name}</h1>
+        <h1 className="text-5xl sm:text-[5rem] font-medium !leading-[1]">
+          {user.name}
+        </h1>
       </div>
 
       <div className="flex flex-col lg:flex-row">
-        <div className="w-[40rem] bg-[#252526] p-4 rounded-lg flex justify-center m-2 bg-opacity-60">
+        <div className="w-[90vw] sm:w-[30rem] md:w-[40rem] bg-[#252526] p-4 rounded-lg flex justify-center m-2 bg-opacity-60">
           <Line data={heartRateData} options={chartOptions} />
         </div>
 
         <div className="bg-[#252526] py-7 lg:py-3 px-10 rounded-lg flex flex-col justify-center m-2 bg-opacity-60">
-          <h2 className="text-[6rem] text-center font-medium !leading-[1]">
+          <h2 className="text-6xl sm:text-[6rem] text-center font-medium !leading-[1]">
             {averageHeartRate}
           </h2>
           <p className="text-lg text-center font-thin">Average heart rate</p>
@@ -167,7 +173,7 @@ const UserProfile = ({ userData }: UserProfileProps) => {
 
       <div className="flex flex-col lg:flex-row">
         <div className="bg-[#252526] py-7 lg:py-3 px-[3.2rem] rounded-lg flex flex-col justify-center m-2 bg-opacity-60">
-          <h2 className="text-[6rem] text-center font-medium !leading-[1]">
+          <h2 className="text-6xl sm:text-[6rem] text-center font-medium !leading-[1]">
             {averageRespiratoryRate}
           </h2>
           <p className="text-lg text-center font-thin">
@@ -176,13 +182,13 @@ const UserProfile = ({ userData }: UserProfileProps) => {
           </p>
         </div>
 
-        <div className="w-[40rem] bg-[#252526] p-3 rounded-lg flex justify-center m-2 bg-opacity-60">
+        <div className="w-[90vw] sm:w-[30rem] md:w-[40rem] bg-[#252526] p-3 rounded-lg flex justify-center m-2 bg-opacity-60">
           <Line data={respiratoryRateData} options={chartOptions} />
         </div>
       </div>
 
       <div className="flex flex-col lg:flex-row">
-        <div className="w-[40rem] bg-[#252526] p-3 rounded-lg flex justify-center m-2 bg-opacity-60">
+        <div className="w-[90vw] sm:w-[30rem] md:w-[40rem] bg-[#252526] p-3 rounded-lg flex justify-center m-2 bg-opacity-60">
           <Bar data={sleepStageData} options={chartOptions} />
         </div>
 

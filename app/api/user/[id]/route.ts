@@ -1,9 +1,8 @@
-import type { NextApiRequest } from "next";
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 
-export const GET = async (req: NextApiRequest) => {
-  //@ts-ignore
-  const id = req.nextUrl.pathname.split("/").pop();
+export const GET = async (req: NextRequest) => {
+  const url = new URL(req.url);
+  const id = url.pathname.split("/").pop();
 
   if (!id) {
     return NextResponse.error();

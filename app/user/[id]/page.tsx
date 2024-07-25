@@ -13,8 +13,6 @@ interface PageProps {
 
 const UserPage = ({ params }: PageProps) => {
   const { id } = params;
-  if (!id) return null;
-
   const { userData, isLoading } = useGetUsers(id);
 
   if (isLoading || !userData) return <Loader />;
