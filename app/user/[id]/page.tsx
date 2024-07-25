@@ -1,7 +1,7 @@
 "use client";
 
 import UserProfile from "@/components/UserProfile";
-import React, { useEffect } from "react";
+import React from "react";
 import { useGetUsers } from "@/hooks/useGetUsers";
 import Loader from "@/components/ui/Loader";
 

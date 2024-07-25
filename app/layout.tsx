@@ -6,7 +6,7 @@ import Footer from "@/components/Footer";
 const dm_sans = DM_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "EIGHT SLEEP",
+  title: "Eight Sleep",
   description: "Cooler nights. Stronger days.",
 };
 
