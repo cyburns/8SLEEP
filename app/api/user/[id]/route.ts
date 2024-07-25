@@ -19,7 +19,7 @@ export const GET = async (req: NextRequest) => {
 
     const data = await response.json();
     return NextResponse.json(data);
-  } catch (error: any) {
+  } catch (error) {
     return NextResponse.error();
   }
 };

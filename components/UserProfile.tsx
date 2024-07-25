@@ -61,8 +61,11 @@ const UserProfile = ({ userData }: UserProfileProps) => {
     },
   };
 
-  const formatTime = (timestamp: any) => {
-    const options: any = { hour: "numeric", hour12: true };
+  const formatTime = (timestamp: string | Date) => {
+    const options: Intl.DateTimeFormatOptions = {
+      hour: "numeric",
+      hour12: true,
+    };
     return new Date(timestamp).toLocaleTimeString([], options);
   };
 
