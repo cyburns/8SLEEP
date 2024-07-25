@@ -22,13 +22,23 @@ const BuyButton = ({ text, link }: BuyButtonProps) => {
   }, []);
 
   return (
-    <div className="flex justify-center mt-5">
+    <div className="flex justify-center mt-5 ">
       <button
-        className="bg-white text-black py-4 px-7 rounded-md text-xl group"
+        className="bg-white text-black py-4 px-7 rounded-md text-xl group relative overflow-hidden h-16"
         ref={buyButtonRef}
         style={{ opacity: 0 }}
       >
-        <a className="group-hover:translate-x-[100%]" href={link}>
+        <a
+          className=" transition-transform duration-300 group-hover:-translate-y-[250%] flex"
+          href={link}
+        >
+          {text}
+        </a>
+
+        <a
+          className="transition-transform duration-300 translate-y-[150%] group-hover:translate-y-[-100%] flex"
+          href={link}
+        >
           {text}
         </a>
       </button>
