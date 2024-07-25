@@ -24,7 +24,7 @@ const BuyButton = ({ text, link }: BuyButtonProps) => {
   return (
     <div className="flex justify-center mt-5 ">
       <button
-        className="bg-white text-black py-4 px-7 rounded-md text-xl group relative overflow-hidden h-16"
+        className="bg-white text-black py-4 px-7 rounded-md text-xl group relative overflow-hidden h-[3.9rem]"
         ref={buyButtonRef}
         style={{ opacity: 0 }}
       >

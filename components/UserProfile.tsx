@@ -150,6 +150,7 @@ const UserProfile = ({ userData }: UserProfileProps) => {
         borderColor: "rgba(6, 128, 247,1)",
         borderWidth: 1,
         tension: 0.4,
+        borderRadius: 5,
       },
     ],
   };

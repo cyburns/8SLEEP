@@ -2,6 +2,18 @@
 
 This project is a web application built with Next.js and TypeScript that visualizes sleep data for multiple users. It uses Charts for data visualization and GSAP for animations. This README provides instructions on how to set up and use the application.
 
+# Future Enhancements
+
+If I were to continue developing this application, I would focus on the following improvements:
+
+1. **Filtering Functionality**: I would implement a feature that allows users to filter and select data by specific days. This would enhance the user experience by providing more granular control over the data they wish to view.
+
+2. **Testing Integration**: I would incorporate comprehensive testing to ensure the reliability and stability of the application. This would include unit tests, integration tests, and end-to-end tests to cover various scenarios and edge cases.
+
+3. **Component Refactoring**: I would further modularize the application by refactoring the UserProfile component. This involves breaking it down into smaller, reusable components, such as individual bento boxes. This approach would improve code maintainability, readability, and reusability, making it easier to manage and extend the application in the future.
+
+By focusing on these areas, the application would become more robust, user-friendly, and maintainable.
+
 ## Prerequisites
 
 Before you begin, ensure you have the following installed on your machine:
