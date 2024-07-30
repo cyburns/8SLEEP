@@ -30,7 +30,6 @@ const Hero = () => {
     const stageDurations = sleepStages.map((stage) =>
       user.details.intervals.reduce((sum, interval) => {
         const stageData = interval.stages.find((s) => s.stage === stage);
-
         return sum + (stageData ? stageData.duration : 0);
       }, 0)
     );

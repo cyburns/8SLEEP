@@ -3,6 +3,8 @@ import Link from "next/link";
 import Avatar from "./Avatar";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { useAddFavorite, useRemoveFavorite } from "@/hooks/useAddFavorite";
+import { useFavorite } from "@/hooks/useFavorite";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -29,9 +31,15 @@ const UserCard = ({
   activeIndex,
   setActiveIndex,
 }: UserCardProps) => {
+  const { isFavorite } = useFavorite(data.id);
+
+  const hanlleFavorite = () => {
+    isFavorite ? useRemoveFavorite(data.id) : useAddFavorite(data.id);
+  };
+
   return (
-    <Link
-      href={`/user/${data.id}`}
+    <div
+      // href={`/user/${data.id}`}
       key={index}
       className={`${
         activeIndex.isActive && activeIndex.index !== index && "opacity-50"
@@ -40,9 +48,20 @@ const UserCard = ({
       onMouseLeave={() => setActiveIndex({ isActive: false, index: null })}
     >
       <div className="w-full mb-10 ">
-        <div className="flex flex-row items-center">
-          <Avatar name={data.name} />
-          <h1 className="text-2xl ml-2">{data.name}</h1>
+        <div className="flex flex-row justify-between w-full">
+          <div className="flex flex-row items-center">
+            <Avatar name={data.name} />
+            <h1 className="text-2xl ml-2">{data.name}</h1>
+          </div>
+          <input
+            type="checkbox"
+            id="vehicle1"
+            name="vehicle1"
+            value="Bike"
+            className={`w-5 accent-red-500`}
+            onClick={hanlleFavorite}
+            checked={isFavorite}
+          />
         </div>
         <h2 className="text-[7rem] font-bold text-center !leading-[0.95] mt-5">
           {data.averageSleepScore}
@@ -58,7 +77,7 @@ const UserCard = ({
           {data.name} slept for <br /> {data.totalSleepDuration}
         </p>
       </div>
-    </Link>
+    </div>
   );
 };
 
